@@ -55,7 +55,7 @@ type FieldDef = {
   optional?: boolean;
   placeholder?: string;
   full?: boolean;
-  hint?: string;
+  hint?: string | undefined;
 };
 
 function DemoForm({
