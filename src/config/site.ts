@@ -29,6 +29,8 @@ export type SiteConfig = {
   featuredSlugs: string[];
   features: FeatureFlags;
   emphasis: string;
+  sector: "default" | "organic" | "specialty" | "pharma" | "dye" | "bulk";
+  previewLabel: string;
 };
 
 const base: SiteConfig = {
@@ -41,9 +43,9 @@ const base: SiteConfig = {
   accentColor: "#0F9D91",
   contact: { email: null, phone: null, address: null, whatsappNumber: null },
   hero: {
-    headline: "Specialty Chemicals. Clear Specifications. Direct Enquiries.",
+    headline: "Specialty chemicals & intermediates",
     description:
-      "Discover chemical products, explore available technical information and submit bulk requirements through a streamlined B2B enquiry experience.",
+      "Explore chemistry by category, review sample specifications and prepare a structured bulk enquiry.",
   },
   categoryOrder: [
     "organic-intermediates",
@@ -62,6 +64,8 @@ const base: SiteConfig = {
     multiProductRFQ: false,
   },
   emphasis: "General specialty-chemical catalogue",
+  sector: "default",
+  previewLabel: "ChemCore · General catalogue",
 };
 
 /**
@@ -70,45 +74,65 @@ const base: SiteConfig = {
  */
 export const previewConfigs: Record<string, SiteConfig> = {
   chemcore: base,
-  "preview-surya": {
+  "preview-organic": {
     ...base,
-    id: "preview-surya",
-    emphasis: "Preview for Surya Organics & Chemicals — CAS search and bulk enquiry emphasis",
-    hero: { ...base.hero, headline: "Find Chemicals by CAS Number. Enquire in Bulk." },
+    id: "preview-organic",
+    sector: "organic",
+    previewLabel: "01 · Organic chemical intermediates",
+    emphasis: "Organic chemical intermediates",
+    categoryOrder: ["organic-intermediates", ...base.categoryOrder.filter((c) => c !== "organic-intermediates")],
+    featuredSlugs: ["sample-aromatic-amine-a1", "sample-ester-o2", "sample-pyridine-derivative-p1", "sample-sulphonic-acid-d2"],
+    hero: { ...base.hero, headline: "Organic chemical intermediates" },
     features: { ...base.features, casSearch: true, multiProductRFQ: true },
   },
-  "preview-amsal": {
+  "preview-specialty": {
     ...base,
-    id: "preview-amsal",
-    emphasis: "Preview for Amsal Chem Pvt. Ltd. — testing information and document requests",
-    hero: { ...base.hero, headline: "Technical Information and Documentation, on Request." },
-    features: { ...base.features, technicalDocumentRequests: true, coaRequest: true },
+    id: "preview-specialty",
+    sector: "specialty",
+    previewLabel: "02 · Fine & specialty chemicals",
+    emphasis: "Fine and specialty chemicals",
+    categoryOrder: ["specialty-chemicals", ...base.categoryOrder.filter((c) => c !== "specialty-chemicals")],
+    featuredSlugs: ["sample-surfactant-s1", "sample-ester-o2", "sample-aromatic-amine-a1", "sample-solvent-blend-i1"],
+    hero: { ...base.hero, headline: "Fine & specialty chemicals" },
+    features: { ...base.features, casSearch: false, technicalDocumentRequests: true, coaRequest: false },
   },
-  "preview-ashok": {
+  "preview-pharma": {
     ...base,
-    id: "preview-ashok",
-    emphasis: "Preview for Ashok Pharma Chem — pharma-intermediate discovery",
+    id: "preview-pharma",
+    sector: "pharma",
+    previewLabel: "03 · Pharmaceutical intermediates",
+    emphasis: "Pharmaceutical intermediates",
     categoryOrder: ["pharmaceutical-intermediates", ...base.categoryOrder.filter((c) => c !== "pharmaceutical-intermediates")],
     featuredSlugs: ["sample-pyridine-derivative-p1", "sample-piperazine-salt-p2", "sample-aromatic-amine-a1", "sample-ester-o2"],
-    hero: { ...base.hero, headline: "Pharmaceutical Intermediates. Clear Specifications." },
+    hero: { ...base.hero, headline: "Pharmaceutical intermediates" },
   },
-  "preview-mayur": {
+  "preview-dye": {
     ...base,
-    id: "preview-mayur",
-    emphasis: "Preview for Mayur Dye Chem Industries — dye categories and sample requests",
+    id: "preview-dye",
+    sector: "dye",
+    previewLabel: "04 · Dye intermediates",
+    emphasis: "Dye intermediates",
     categoryOrder: ["dye-intermediates", ...base.categoryOrder.filter((c) => c !== "dye-intermediates")],
     featuredSlugs: ["sample-sulphonic-acid-d2", "sample-naphthol-derivative-d1", "sample-aromatic-amine-a1", "sample-solvent-blend-i1"],
-    hero: { ...base.hero, headline: "Dye Intermediates for Textile and Industrial Applications." },
+    hero: { ...base.hero, headline: "Dye intermediates" },
     features: { ...base.features, dyeSampleRequests: true },
   },
-  "preview-richa": {
+  "preview-bulk": {
     ...base,
-    id: "preview-richa",
-    emphasis: "Preview for Richa Intermediates Pvt. Ltd. — CAS indexing and multi-product RFQs",
-    hero: { ...base.hero, headline: "Indexed Intermediates. Multi-Product Quotations." },
+    id: "preview-bulk",
+    sector: "bulk",
+    previewLabel: "05 · Bulk chemical intermediates",
+    emphasis: "Bulk chemical intermediates",
+    categoryOrder: ["industrial-chemicals", "organic-intermediates", ...base.categoryOrder.filter((c) => c !== "industrial-chemicals" && c !== "organic-intermediates")],
+    featuredSlugs: ["sample-solvent-blend-i1", "sample-aromatic-amine-a1", "sample-ester-o2", "sample-sulphonic-acid-d2"],
+    hero: { ...base.hero, headline: "Bulk chemical intermediates" },
     features: { ...base.features, casSearch: true, multiProductRFQ: true },
   },
 };
 
 export const defaultConfig = base;
 export const PREVIEW_STORAGE_KEY = "chemcore-preview-config";
+
+export function resolveConfig(id: string | null, development: boolean): SiteConfig {
+  return development && id && previewConfigs[id] ? previewConfigs[id] : defaultConfig;
+}

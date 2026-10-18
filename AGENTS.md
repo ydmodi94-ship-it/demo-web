@@ -14,3 +14,5 @@
 - Product data lives in `src/data/products.ts`, separate from UI; catalogue filtering uses `filterProducts` so search operates on real data.
 - Preview presets are dev-only (`import.meta.env.DEV`); production always renders the default ChemCore config to avoid impersonating companies.
 - Forms run in demo mode (client-side zod validation, honeypot, duplicate-submit lock) and must never claim data was sent until a backend exists.
+- Sector presets resolve through `resolveConfig`; shared `data-sector` CSS tokens and `useOrderedCategories` propagate styling and order without duplicating pages.
+- All illustrative facility imagery is captioned as non-company photography; retain those captions when replacing layouts.
