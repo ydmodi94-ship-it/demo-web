@@ -199,7 +199,7 @@ const contactFields: FieldDef[] = [
   { name: "companyName", label: "Company name" },
 ];
 
-export function RfqForm({ productName, multi }: { productName?: string; multi?: boolean }) {
+export function RfqForm({ productName, multi }: { productName?: string | undefined; multi?: boolean }) {
   return (
     <DemoForm
       kind="enquiry"
@@ -224,7 +224,7 @@ export function RfqForm({ productName, multi }: { productName?: string; multi?: 
   );
 }
 
-export function DocRequestForm({ productName, allowCoa }: { productName?: string; allowCoa: boolean }) {
+export function DocRequestForm({ productName, allowCoa }: { productName?: string | undefined; allowCoa: boolean }) {
   const types = ["Technical Data Sheet", "Safety Data Sheet", ...(allowCoa ? ["Certificate of Analysis"] : []), "Other approved documentation"];
   return (
     <DemoForm
@@ -242,7 +242,7 @@ export function DocRequestForm({ productName, allowCoa }: { productName?: string
   );
 }
 
-export function SampleRequestForm({ productName }: { productName?: string }) {
+export function SampleRequestForm({ productName }: { productName?: string | undefined }) {
   return (
     <DemoForm
       kind="sample request"

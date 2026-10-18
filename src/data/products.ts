@@ -94,7 +94,7 @@ export const allGrades = Array.from(new Set(products.map((p) => p.grade).filter(
 export const getCategory = (slug: string) => categories.find((c) => c.slug === slug);
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
 
-export type ProductFilters = { q?: string; category?: string; application?: string; grade?: string; sort?: "az" | "za" };
+export type ProductFilters = { q?: string | undefined; category?: string | undefined; application?: string | undefined; grade?: string | undefined; sort?: "az" | "za" | undefined };
 
 export function filterProducts(list: Product[], f: ProductFilters): Product[] {
   const q = f.q?.trim().toLowerCase();
